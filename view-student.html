@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>View Students | isaac-arch</title>
+  <style>
+    * {margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+    body {
+      background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+      color:#fff;
+      min-height:100vh;
+      padding:20px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+    }
+
+    h1 {
+      margin-bottom:20px;
+      color:#ffd700;
+      text-shadow:0 0 10px rgba(255,215,0,0.6);
+    }
+
+    table {
+      width:90%;
+      max-width:900px;
+      border-collapse:collapse;
+      margin-top:20px;
+      background:rgba(255,255,255,0.1);
+      border-radius:10px;
+      overflow:hidden;
+      box-shadow:0 4px 20px rgba(0,0,0,0.4);
+      animation:fadeIn 0.8s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from {opacity:0;transform:translateY(20px);}
+      to {opacity:1;transform:translateY(0);}
+    }
+
+    th, td {
+      padding:12px 15px;
+      text-align:left;
+    }
+
+    th {
+      background:#ffd700;
+      color:#000;
+      font-weight:600;
+    }
+
+    tr:nth-child(even) {
+      background:rgba(255,255,255,0.05);
+    }
+
+    tr:hover {
+      background:rgba(255,255,255,0.15);
+      transition:0.3s;
+    }
+
+    .btn {
+      padding:6px 10px;
+      border:none;
+      border-radius:5px;
+      cursor:pointer;
+      font-weight:500;
+    }
+
+    .edit {
+      background:#1abc9c;
+      color:#fff;
+    }
+
+    .delete {
+      background:#e74c3c;
+      color:#fff;
+    }
+
+    .btn:hover {
+      opacity:0.8;
+      transform:scale(1.05);
+      transition:0.2s;
+    }
+
+    .back-btn {
+      margin-top:20px;
+      background:rgba(255,255,255,0.2);
+      padding:8px 20px;
+      border-radius:10px;
+      text-decoration:none;
+      color:#fff;
+      transition:0.3s;
+    }
+
+    .back-btn:hover {
+      background:#ffd700;
+      color:#000;
+    }
+
+    footer {
+      margin-top:30px;
+      font-size:0.9rem;
+      color:#bbb;
+    }
+
+  </style>
+</head>
+<body>
+  <h1>🎓 Student Records</h1>
+
+  <table id="studentTable">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Full Name</th>
+        <th>Gender</th>
+        <th>Class</th>
+        <th>Department</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <a href="index.html" class="back-btn">⬅ Back to Dashboard</a>
+
+  <footer>© Isaac Okotie | Full Stack Developer (isaac-arch)</footer>
+
+  <script>
+    const tableBody = document.querySelector('#studentTable tbody');
+
+    function loadStudents() {
+      const students = JSON.parse(localStorage.getItem('students')) || [];
+      tableBody.innerHTML = '';
+
+      if (students.length === 0) {
+        tableBody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:#bbb;">No records found</td></tr>`;
+        return;
+      }
+
+      students.forEach((student, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${student.name}</td>
+          <td>${student.gender}</td>
+          <td>${student.className}</td>
+          <td>${student.dept}</td>
+          <td>
+            <button class="btn edit" onclick="editStudent(${student.id})">Edit</button>
+            <button class="btn delete" onclick="deleteStudent(${student.id})">Delete</button>
+          </td>
+        `;
+        tableBody.appendChild(row);
+      });
+    }
+
+    function deleteStudent(id) {
+      let students = JSON.parse(localStorage.getItem('students')) || [];
+      students = students.filter(student => student.id !== id);
+      localStorage.setItem('students', JSON.stringify(students));
+      loadStudents();
+    }
+
+    function editStudent(id) {
+      const students = JSON.parse(localStorage.getItem('students')) || [];
+      const student = students.find(s => s.id === id);
+      if (!student) return alert('Student not found');
+
+      const newName = prompt('Edit Name:', student.name);
+      const newGender = prompt('Edit Gender (Male/Female):', student.gender);
+      const newClass = prompt('Edit Class:', student.className);
+      const newDept = prompt('Edit Department:', student.dept);
+
+      if (newName && newGender && newClass && newDept) {
+        student.name = newName;
+        student.gender = newGender;
+        student.className = newClass;
+        student.dept = newDept;
+        localStorage.setItem('students', JSON.stringify(students));
+        loadStudents();
+      }
+    }
+
+    loadStudents();
+  </script>
+</body>
+</html>

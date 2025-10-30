@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Record System | isaac-arch</title>
+  <style>
+    * {margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+    body {
+      background: linear-gradient(135deg,#1e3c72,#2a5298);
+      min-height:100vh;
+      color:#fff;
+      display:flex;
+      flex-direction:column;
+    }
+
+    header {
+      background:rgba(255,255,255,0.1);
+      backdrop-filter:blur(8px);
+      padding:20px;
+      text-align:center;
+      font-size:1.8rem;
+      font-weight:600;
+      letter-spacing:1px;
+      box-shadow:0 2px 15px rgba(0,0,0,0.3);
+    }
+
+    main {
+      flex:1;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+    }
+
+    .menu {
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:20px;
+      width:90%;
+      max-width:700px;
+      text-align:center;
+    }
+
+    .card {
+      background:rgba(255,255,255,0.15);
+      padding:40px 20px;
+      border-radius:20px;
+      transition:transform 0.3s, background 0.3s;
+      box-shadow:0 4px 20px rgba(0,0,0,0.3);
+      cursor:pointer;
+    }
+
+    .card:hover {
+      transform:scale(1.05);
+      background:rgba(255,255,255,0.25);
+    }
+
+    .card h2 {margin-bottom:10px;color:#ffd700;}
+    .card p {font-size:0.95rem;color:#eee;}
+
+    footer {
+      text-align:center;
+      padding:15px;
+      background:rgba(0,0,0,0.3);
+      font-size:0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <header>🎓 Student Record System</header>
+  <main>
+    <div class="menu">
+      <div class="card" onclick="location.href='add-student.html'">
+        <h2>Add Student</h2>
+        <p>Register a new student record</p>
+      </div>
+      <div class="card" onclick="location.href='view-students.html'">
+        <h2>View Students</h2>
+        <p>See all registered students</p>
+      </div>
+    </div>
+  </main>
+  <footer>© Isaac Okotie | Full Stack Developer (isaac-arch)</footer>
+</body>
+</html>
